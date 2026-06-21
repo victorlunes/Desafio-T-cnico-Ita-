@@ -1,4 +1,4 @@
-package dev.java10X.ItauJava10X;
+package dev.java10X.ItauJava10X.Model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

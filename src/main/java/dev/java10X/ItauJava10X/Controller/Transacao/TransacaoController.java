@@ -1,7 +1,6 @@
-package dev.java10X.ItauJava10X.Controller;
+package dev.java10X.ItauJava10X.Controller.Transacao;
 
 import dev.java10X.ItauJava10X.DTO.Transacao.TransacaoRequest;
-import dev.java10X.ItauJava10X.Repository.Transacao.TransacaoRepository;
 import dev.java10X.ItauJava10X.Service.Transacao.TransacaoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,19 +10,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/transacao")
 public class TransacaoController {
     private final TransacaoService transacaoService;
-    private final TransacaoRepository transacaoRepository;
 
-    public TransacaoController(TransacaoService transacaoService,  TransacaoRepository transacaoRepository) {
+    public TransacaoController(TransacaoService transacaoService) {
         this.transacaoService = transacaoService;
-        this.transacaoRepository = transacaoRepository;
     }
 
     @PostMapping
-    public ResponseEntity adicionar(@RequestBody TransacaoRequest transacao) {
+    public ResponseEntity adicionarNovaTransacao(@RequestBody TransacaoRequest transacao) {
         try{
-            transacaoService.validarTransacao(transacao);
-            transacaoRepository.salvarDados(transacao);
-
+            transacaoService.novaTransacao(transacao);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }catch (IllegalArgumentException ex){
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
@@ -33,10 +28,9 @@ public class TransacaoController {
     }
 
     @DeleteMapping
-    public ResponseEntity deletar() {
+    public ResponseEntity removerTransacao() {
         try{
-            transacaoRepository.deletarDados();
-
+            transacaoService.deletarTransacao();
             return ResponseEntity.status(HttpStatus.OK).build();
         }catch (IllegalArgumentException ex){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

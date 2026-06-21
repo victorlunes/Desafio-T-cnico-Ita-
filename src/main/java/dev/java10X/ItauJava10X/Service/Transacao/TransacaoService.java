@@ -1,30 +1,26 @@
 package dev.java10X.ItauJava10X.Service.Transacao;
 
 import dev.java10X.ItauJava10X.DTO.Transacao.TransacaoRequest;
+import dev.java10X.ItauJava10X.Repository.Transacao.TransacaoRepository;
+import dev.java10X.ItauJava10X.Validar.ValidarTransacao.ValidarTransacao;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-
 @Service
-public class TransacaoService {
+public class TransacaoService extends ValidarTransacao {
 
-    public void validarTransacao(TransacaoRequest transacao) {
-        if (transacao.getValor().compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Erro: transações devem ter valores maiores que zero");
-        }
+    private final TransacaoRepository transacaoRepository;
 
-        if (transacao.getValor() == null) {
-            throw new IllegalArgumentException("Erro: transações devem ter valores que não sejam nulos");
-        }
+    public TransacaoService(TransacaoRepository transacaoRepository) {
+        this.transacaoRepository = transacaoRepository;
+    }
 
-        if (transacao.getDataHora().isAfter(OffsetDateTime.now())) {
-            throw new IllegalArgumentException("Erro: Erro na data da transação");
-        }
+    public void novaTransacao(TransacaoRequest transacao) {
+        validarTransacao(transacao);
+        transacaoRepository.salvarTransacao(transacao);
+    }
 
-        if (transacao.getDataHora() == null) {
-            throw new IllegalArgumentException("Erro: Erro na data da transação vindo como nula");
-        }
+    public void deletarTransacao() {
+        transacaoRepository.removerTodasTransacoes();
     }
 
 }

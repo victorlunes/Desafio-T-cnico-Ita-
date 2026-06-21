@@ -10,16 +10,12 @@ import java.util.List;
 public class TransacaoRepository {
     List<TransacaoRequest> transacoesLista = new ArrayList<>();
 
-    public void salvarDados(TransacaoRequest transacaoRequest) {
+    public void salvarTransacao(TransacaoRequest transacaoRequest) {
         transacoesLista.add(transacaoRequest);
         System.out.println(transacoesLista);
     }
 
-    public void limparDados() {
-
-    }
-
-    public void deletarDados() {
+    public void removerTodasTransacoes() {
         transacoesLista.clear();
         System.out.println(transacoesLista);
     }
