@@ -12,6 +12,7 @@ public class TransacaoRepository {
 
     public void salvarDados(TransacaoRequest transacaoRequest) {
         transacoesLista.add(transacaoRequest);
+        System.out.println(transacoesLista);
     }
 
     public void limparDados() {
@@ -20,5 +21,6 @@ public class TransacaoRepository {
 
     public void deletarDados() {
         transacoesLista.clear();
+        System.out.println(transacoesLista);
     }
 }

@@ -5,10 +5,7 @@ import dev.java10X.ItauJava10X.Repository.Transacao.TransacaoRepository;
 import dev.java10X.ItauJava10X.Service.Transacao.TransacaoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/transacao")
@@ -26,10 +23,22 @@ public class TransacaoController {
         try{
             transacaoService.validarTransacao(transacao);
             transacaoRepository.salvarDados(transacao);
+
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }catch (IllegalArgumentException ex){
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
         }catch (Exception ex){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @DeleteMapping
+    public ResponseEntity deletar() {
+        try{
+            transacaoRepository.deletarDados();
+
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }catch (IllegalArgumentException ex){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
