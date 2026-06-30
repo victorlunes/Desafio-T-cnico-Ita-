@@ -1,8 +1,7 @@
-package dev.java10X.ItauJava10X.DTO.Estatistica;
+package dev.java10X.ItauJava10X.Model.Estatistica;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -10,7 +9,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EstatisticaDTO {
+public class Estatistica {
     private double count;
     private BigDecimal sum;
     private BigDecimal avg;

@@ -1,4 +1,4 @@
-package dev.java10X.ItauJava10X.Model;
+package dev.java10X.ItauJava10X.Model.Transacao;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
