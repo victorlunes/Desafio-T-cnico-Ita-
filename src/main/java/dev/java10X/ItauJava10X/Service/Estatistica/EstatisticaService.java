@@ -10,7 +10,7 @@ import java.util.List;
 public class EstatisticaService {
 
     private final TransacaoRepository transacaoRepository;
-
+    
     public EstatisticaService(TransacaoRepository transacaoRepository) {
         this.transacaoRepository = transacaoRepository;
     }

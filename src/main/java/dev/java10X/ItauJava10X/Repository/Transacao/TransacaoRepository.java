@@ -3,6 +3,7 @@ package dev.java10X.ItauJava10X.Repository.Transacao;
 import dev.java10X.ItauJava10X.DTO.Estatistica.EstatisticaDTO;
 import dev.java10X.ItauJava10X.DTO.Transacao.TransacaoRequest;
 import dev.java10X.ItauJava10X.Model.Estatistica.Estatistica;
+import dev.java10X.ItauJava10X.Model.Estatistica.EstatisticaProperties.EstatisticaProperties;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -10,10 +11,18 @@ import java.math.RoundingMode;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class TransacaoRepository {
+    private final EstatisticaProperties estatisticaProperties;
+
+    public TransacaoRepository(EstatisticaProperties estatisticaProperties) {
+        this.estatisticaProperties = estatisticaProperties;
+    }
+
     List<TransacaoRequest> transacoesLista = new ArrayList<>();
 
     public void salvarTransacao(TransacaoRequest transacaoRequest) {
@@ -26,11 +35,10 @@ public class TransacaoRepository {
 
     public List<EstatisticaDTO> pegarEstatisticaTodasTransacoes() {
 
-        List<EstatisticaDTO> listaEstatistica = new ArrayList<>();
-
         OffsetDateTime inicio = OffsetDateTime.now(ZoneOffset.UTC);
 
-        OffsetDateTime fim = OffsetDateTime.now(ZoneOffset.UTC).minusMinutes(5);
+        OffsetDateTime fim = inicio
+                .minusSeconds(estatisticaProperties.segundos());
 
         double count = transacoesLista.stream()
                 .filter(data -> data.getDataHora().isAfter(fim) && data.getDataHora().isBefore(inicio))
@@ -61,8 +69,6 @@ public class TransacaoRepository {
                 .max(BigDecimal::compareTo)
                 .orElse(BigDecimal.ZERO);
 
-        listaEstatistica.add(new EstatisticaDTO(count, sum, avg, min, max));
-
-        return listaEstatistica;
+        return List.of(new EstatisticaDTO(count, sum, avg, min, max));
     }
 }

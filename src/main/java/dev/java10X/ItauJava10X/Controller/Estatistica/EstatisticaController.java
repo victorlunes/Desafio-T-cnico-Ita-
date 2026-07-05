@@ -1,6 +1,7 @@
 package dev.java10X.ItauJava10X.Controller.Estatistica;
 
 import dev.java10X.ItauJava10X.DTO.Estatistica.EstatisticaDTO;
+import dev.java10X.ItauJava10X.Model.Estatistica.EstatisticaProperties.EstatisticaProperties;
 import dev.java10X.ItauJava10X.Service.Estatistica.EstatisticaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
