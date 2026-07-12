@@ -1,7 +1,11 @@
 package dev.java10X.ItauJava10X.Controller.Estatistica;
 
 import dev.java10X.ItauJava10X.DTO.Estatistica.EstatisticaDTO;
+import dev.java10X.ItauJava10X.Docs.EstatisticaControllerDoc;
 import dev.java10X.ItauJava10X.Service.Estatistica.EstatisticaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +18,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/estatistica")
-public class EstatisticaController {
+public class EstatisticaController implements EstatisticaControllerDoc {
 
     private final EstatisticaService estatisticaService;
 
@@ -24,9 +28,14 @@ public class EstatisticaController {
 
     @GetMapping
     public ResponseEntity<List<EstatisticaDTO>> todasEstatisticas() {
-        log.info("Recebida requisicao para buscar estatisticas");
-        List<EstatisticaDTO> listaEstatistica = estatisticaService.pegarEstatistica();
-        log.info("Estatisticas retornadas com sucesso");
-        return ResponseEntity.status(HttpStatus.OK).body(listaEstatistica);
+        try {
+            log.info("Recebida requisicao para buscar estatisticas");
+            List<EstatisticaDTO> listaEstatistica = estatisticaService.pegarEstatistica();
+            log.info("Estatisticas retornadas com sucesso");
+            return ResponseEntity.status(HttpStatus.OK).body(listaEstatistica);
+        }catch (Exception ex){
+            log.error("Erro inesperado ao buscar estatisticas", ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
